@@ -1,0 +1,24 @@
+type Query {
+    snippet: Snippet
+    snippets: [Snippet]!
+}
+
+type Snippet {
+    id: ID!
+    name: String!
+    code: String
+    Language: Language!
+    User: User!
+}
+
+type Language {
+    id: ID!
+    name: String!
+}
+
+type User {
+    id: ID!
+    firstName: String
+    lastName: String
+    snippets: [Snippet]!
+}
