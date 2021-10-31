@@ -17,7 +17,7 @@ const SnippetsPage: NextPage<{snippets: Snippet[]}> = () => {
   }, [snippets?.length]);
 
   return (
-    <Container px={4} py={3} maxW="100%">
+    <Container px={{md: 4, sm: 0}} py={3} maxW="100%">
       {snippets?.map((snippet) => (
         <SnippetComponent key={snippet.id} snippet={snippet} />
       ))}

@@ -14,10 +14,10 @@ export const Navigation: NextPage = () => {
             <Link href={'/snippets'}>All Snippets</Link>
           </Text>
           <Text color="yellow.100" fontWeight="normal" fontSize="md">
-            <Link href={'/mySnippets'}>My Snippets</Link>
+            <Link href={'/snippets/personal'}>My Snippets</Link>
           </Text>
           <Text color="yellow.100" fontWeight="normal" fontSize="md">
-            <Link href={'/addSnippet'}>Add Snippet</Link>
+            <Link href={'/snippets/create'}>Add Snippet</Link>
           </Text>
           <Text color="yellow.100" fontWeight="normal" fontSize="md">
             <Link href={'/login'}>Login</Link>

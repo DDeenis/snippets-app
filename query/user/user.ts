@@ -27,3 +27,43 @@ export const GetUsers = gql`
 
   ${UserFragment}
 `;
+
+export interface GetUserRequest {
+  id: string;
+}
+
+export interface GetUserResponse {
+  getUser: User;
+}
+
+export const GetUser = gql`
+  query getAllUsers($id: ID!) {
+    getUser(id: $id) {
+      ...UserFragment
+    }
+  }
+
+  ${UserFragment}
+`;
+
+export interface CreateUserRequest {
+  input: [User];
+}
+
+export interface CreateUserResponse {
+  addUser: {
+    user: User;
+  };
+}
+
+export const CreateUser = gql`
+  mutation MyMutation($input: [AddUserInput!]) {
+    addUser(input: $input) {
+      user {
+        ...UserFragment
+      }
+    }
+  }
+
+  ${UserFragment}
+`;

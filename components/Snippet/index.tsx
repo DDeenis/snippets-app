@@ -19,12 +19,12 @@ const SnippetComponent: NextPage<SnippetProps> = ({snippet, preview = true}) => 
   );
 
   return (
-    <Container mx={'auto'} p={6} bg="yellow.300" maxW="container.sm" borderRadius="lg">
-      <Box mb={3} display="flex" gridGap={1}>
+    <Container mx={'auto'} py={6} bg="yellow.300" maxW="container.sm" borderRadius="lg">
+      <Box mb={3} display="flex" justifyContent="space-between" gridGap={1}>
         <Box py={1} px={2} w="max-content" bg="yellow.400" borderRadius="lg">
           <Text isTruncated>{snippet.Language.name}</Text>
         </Box>
-        <Box py={1} px={2} ml="auto" maxW="max-content" bg="yellow.400" borderRadius="lg">
+        <Box py={1} px={2} maxW="max-content" bg="yellow.400" borderRadius="lg">
           <Link href={`/users/${snippet.User.id}`}>{`${snippet.User.firstName} ${snippet.User.lastName}`}</Link>
         </Box>
       </Box>
