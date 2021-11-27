@@ -4,10 +4,11 @@ import {ApolloProvider} from '@apollo/client';
 import {initializeApollo, useApollo} from '../utils/libs/apolloClient';
 import {GetStaticProps} from 'next';
 import {ChakraProvider} from '@chakra-ui/react';
-import 'prismjs/themes/prism-tomorrow.css';
 import {Layout} from '../src/components/layouts/Layout';
 import {GetUsers, GetUsersResponse} from '../src/query/user/user';
 import {GetSnippets, GetSnippetsResponse} from '../src/query/snippets/snippets';
+import {UserProvider} from '@auth0/nextjs-auth0';
+import 'prismjs/themes/prism-tomorrow.css';
 
 function MyApp({Component, pageProps}: AppProps) {
   const client = useApollo(pageProps.initialApolloState);
@@ -15,9 +16,11 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider resetCSS>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <UserProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </UserProvider>
       </ChakraProvider>
     </ApolloProvider>
   );

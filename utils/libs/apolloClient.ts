@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 import {ApolloClient, from, HttpLink, InMemoryCache, NormalizedCacheObject} from '@apollo/client';
 import {onError} from '@apollo/client/link/error';
-import {GRAPHQL_URL} from '../../constants/env';
+import {GRAPHQL_URL} from '../../src/constants/env';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
