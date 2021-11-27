@@ -1,10 +1,10 @@
 import {NextPage} from 'next';
-import {GetSnippets, GetSnippetsResponse, Snippet} from '../../query/snippets/snippets';
 import {useQuery} from '@apollo/client';
 import {Container} from '@chakra-ui/layout';
-import SnippetComponent from '../../components/Snippet';
-import Prism from 'prismjs';
 import {useEffect} from 'react';
+import {GetSnippets, GetSnippetsResponse, Snippet} from '../../src/query/snippets/snippets';
+import SnippetComponent from '../../src/components/Snippet';
+import Prism from 'prismjs';
 
 const SnippetsPage: NextPage<{snippets: Snippet[]}> = () => {
   const {data} = useQuery<GetSnippetsResponse>(GetSnippets);
