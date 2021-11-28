@@ -23,7 +23,6 @@ export const Navigation: NextPage = () => {
 
   for (const pathName in routes.nav) {
     const path = routes.nav[pathName as navRouteKeys];
-    console.log(path, pathname, path === pathname);
     linkStyles[path] = path === pathname ? linkActive : {};
   }
 
