@@ -19,7 +19,7 @@ const SnippetComponent: NextPage<SnippetProps> = ({snippet, preview = true}) => 
   );
 
   return (
-    <Container mx={'auto'} py={6} bg="yellow.300" maxW="container.sm" borderRadius="lg">
+    <Container mx={'auto'} py={6} bg="yellow.300" maxW="container.sm" borderRadius="lg" boxShadow="sm">
       <Box mb={3} display="flex" gridGap={1}>
         <Box py={1} px={2} w="max-content" bg="yellow.400" borderRadius="lg">
           <Text isTruncated>{snippet.Language.name}</Text>

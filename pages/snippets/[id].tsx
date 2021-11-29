@@ -6,6 +6,8 @@ import {GetSnippet, GetSnippetRequest, GetSnippetResponse, Snippet} from '../../
 import {Box, Center, Text} from '@chakra-ui/layout';
 import {ArrowBackIcon} from '@chakra-ui/icons';
 import Link from 'next/link';
+import {BottomButton} from '../../src/components/BackButton/BackButton';
+import {routes} from '../../src/constants/routes';
 
 const SnippetPage: NextPage<{snippet: Snippet}> = ({snippet}) => {
   useEffect(() => {
@@ -20,7 +22,8 @@ const SnippetPage: NextPage<{snippet: Snippet}> = ({snippet}) => {
         maxW="container.lg"
         minH="container.md"
         w="100%"
-        bg="yellow.300"
+        bg="yellow.200"
+        boxShadow="md"
         mt="6"
         p="6"
         borderRadius="6"
@@ -44,24 +47,7 @@ const SnippetPage: NextPage<{snippet: Snippet}> = ({snippet}) => {
         <pre style={{margin: 0}} className={`language-${snippet.Language.name.toLowerCase()}`}>
           <code>{snippet.code}</code>
         </pre>
-        <Link href="/snippets" passHref>
-          <Box
-            display="flex"
-            gridGap="2"
-            alignItems="center"
-            alignSelf="flex-end"
-            mt="auto"
-            py={1}
-            px={2}
-            w="max-content"
-            bg="yellow.400"
-            borderRadius="lg"
-            cursor="pointer"
-          >
-            <ArrowBackIcon />
-            <Text>Back</Text>
-          </Box>
-        </Link>
+        <BottomButton icon={<ArrowBackIcon />} text={'Back'} link={routes.nav.allSnippets} />
       </Box>
     </Center>
   );
