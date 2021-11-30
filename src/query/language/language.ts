@@ -11,3 +11,17 @@ export const LanguageFragment = gql`
     name
   }
 `;
+
+export interface GetLanguagesResponse {
+  queryLanguage: Language[];
+}
+
+export const GetLanguages = gql`
+  query getLanguages($filter: LanguageFilter) {
+    queryLanguage(filter: $filter) {
+      ...LanguageFragment
+    }
+  }
+
+  ${LanguageFragment}
+`;

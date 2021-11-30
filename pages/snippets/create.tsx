@@ -3,24 +3,35 @@ import {FormControl} from '@chakra-ui/form-control';
 import {CloseIcon, CheckIcon} from '@chakra-ui/icons';
 import {Input} from '@chakra-ui/input';
 import {Box, Center} from '@chakra-ui/layout';
+import {Textarea} from '@chakra-ui/react';
 import {Select} from '@chakra-ui/select';
+import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
 import {GetServerSideProps, NextPage} from 'next';
 import {useForm} from 'react-hook-form';
-import {BottomButton} from '../../src/components/BackButton/BackButton';
+import {BottomButton} from '../../src/components/BackButton/BottomButton';
 import {routes} from '../../src/constants/routes';
+import {SnippetForm, snippetSchema} from '../../src/helpers/forms/snippet';
+import {useLanguages} from '../../src/hooks/language';
 
 const CreateSnippet: NextPage = () => {
-  const {register, handleSubmit} = useForm();
+  const {register, handleSubmit, formState} = useForm<SnippetForm>({
+    resolver: yupResolver(snippetSchema),
+  });
+  const languages = useLanguages();
 
-  const onSubmit = handleSubmit((formData: any) => {
+  const {errors} = formState;
+
+  const onSubmit = handleSubmit((formData: SnippetForm) => {
     console.log(formData);
   });
+
+  console.log(errors);
 
   const inputStyles = {
     borderColor: 'yellow.600',
     color: 'black',
     _placeholder: {
-      color: 'rgba(0, 0, 0, 0.6)',
+      color: 'rgba(0, 0, 0, 0.7)',
     },
     _hover: {
       borderColor: 'yellow.500',
@@ -31,7 +42,7 @@ const CreateSnippet: NextPage = () => {
     <Center>
       <Box
         maxW="container.md"
-        minH="container.md"
+        maxH="container.md"
         w="100%"
         bg="yellow.200"
         boxShadow="md"
@@ -41,14 +52,27 @@ const CreateSnippet: NextPage = () => {
         display="flex"
         flexDirection="column"
       >
-        <FormControl onSubmit={onSubmit} display="flex" flexDirection="column" gridGap="3">
+        <FormControl as="form" onSubmit={onSubmit} display="flex" flexDirection="column" gridGap="3">
           <Input label="Name" placeholder="Name" {...register('name')} isRequired {...inputStyles} />
-          <Select {...inputStyles}></Select>
+          <Select isRequired {...register('language')} {...inputStyles}>
+            {languages?.map((l) => (
+              <option key={l.id}>{l.name}</option>
+            ))}
+          </Select>
+          <Textarea
+            placeholder="Paste your code here"
+            resize={'none'}
+            h="100vh"
+            maxH="md"
+            isRequired
+            {...register('code')}
+            {...inputStyles}
+          ></Textarea>
+          <Box mt="auto" display="flex" justifyContent="flex-end" gridGap="3">
+            <BottomButton icon={<CheckIcon />} text={'Submit'} type="submit" />
+            <BottomButton icon={<CloseIcon />} text={'Cancel'} link={routes.nav.allSnippets} type="button" />
+          </Box>
         </FormControl>
-        <Box mt="auto" display="flex" gridGap="3">
-          <BottomButton icon={<CheckIcon />} text={'Submit'} type="submit" />
-          <BottomButton icon={<CloseIcon />} text={'Cancel'} link={routes.nav.allSnippets} type="button" />
-        </Box>
       </Box>
     </Center>
   );

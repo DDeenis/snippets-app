@@ -6,7 +6,7 @@ import {GetSnippet, GetSnippetRequest, GetSnippetResponse, Snippet} from '../../
 import {Box, Center, Text} from '@chakra-ui/layout';
 import {ArrowBackIcon} from '@chakra-ui/icons';
 import Link from 'next/link';
-import {BottomButton} from '../../src/components/BackButton/BackButton';
+import {BottomButton} from '../../src/components/BackButton/BottomButton';
 import {routes} from '../../src/constants/routes';
 
 const SnippetPage: NextPage<{snippet: Snippet}> = ({snippet}) => {
