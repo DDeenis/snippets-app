@@ -1,31 +1,41 @@
-import {withPageAuthRequired} from '@auth0/nextjs-auth0';
+import {useUser, withPageAuthRequired} from '@auth0/nextjs-auth0';
 import {FormControl} from '@chakra-ui/form-control';
 import {CloseIcon, CheckIcon} from '@chakra-ui/icons';
 import {Input} from '@chakra-ui/input';
 import {Box, Center} from '@chakra-ui/layout';
 import {Textarea} from '@chakra-ui/react';
 import {Select} from '@chakra-ui/select';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
 import {GetServerSideProps, NextPage} from 'next';
+import {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {BottomButton} from '../../src/components/BackButton/BottomButton';
 import {routes} from '../../src/constants/routes';
-import {SnippetForm, snippetSchema} from '../../src/helpers/forms/snippet';
+import {SnippetForm, snippetResolver} from '../../src/helpers/forms/snippet';
 import {useLanguages} from '../../src/hooks/language';
+import {useCreateUser} from '../../src/hooks/login';
 
 const CreateSnippet: NextPage = () => {
-  const {register, handleSubmit, formState} = useForm<SnippetForm>({
-    resolver: yupResolver(snippetSchema),
+  const {register, handleSubmit} = useForm<SnippetForm>({
+    resolver: snippetResolver,
   });
   const languages = useLanguages();
+  const {user} = useUser();
+  const createUser = useCreateUser();
 
-  const {errors} = formState;
+  useEffect(() => {
+    if (user) {
+      const [firstName, lastName] = user.name?.split(' ') ?? [user.name ?? '', ''];
+      createUser({
+        firstName,
+        lastName,
+        userId: user?.sub ?? '',
+      });
+    }
+  }, []);
 
   const onSubmit = handleSubmit((formData: SnippetForm) => {
     console.log(formData);
   });
-
-  console.log(errors);
 
   const inputStyles = {
     borderColor: 'yellow.600',

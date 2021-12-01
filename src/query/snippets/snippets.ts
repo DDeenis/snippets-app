@@ -58,3 +58,21 @@ export const GetSnippet = gql`
 
   ${SnippetFragment}
 `;
+
+export interface CreateSnippetResponse {
+  addSnippet: {
+    snippet: Snippet;
+  };
+}
+
+export const CreateSnippet = gql`
+  mutation createSnippet($input: [AddSnippetInput!]!) {
+    addSnippet(input: $input) {
+      snippet {
+        ...SnippetFragment
+      }
+    }
+  }
+
+  ${SnippetFragment}
+`;

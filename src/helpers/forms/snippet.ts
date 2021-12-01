@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
 
 export interface SnippetForm {
   name: string;
@@ -6,8 +7,10 @@ export interface SnippetForm {
   language: string;
 }
 
-export const snippetSchema = yup.object({
+const snippetSchema = yup.object({
   name: yup.string().max(50).required(),
   code: yup.string().max(500).required(),
   language: yup.string().required(),
 });
+
+export const snippetResolver = yupResolver(snippetSchema);

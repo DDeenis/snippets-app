@@ -7,10 +7,12 @@ import {
   GetUser,
   GetUserRequest,
   GetUserResponse,
+  GetUsers,
+  GetUsersResponse,
   User,
 } from '../query/user/user';
 
-export const useUser = () => {
+export const useCurrentUser = () => {
   const token = Cookie.get('token') ?? '';
 
   const {data} = useQuery<GetUserResponse, GetUserRequest>(GetUser, {
@@ -23,9 +25,22 @@ export const useUser = () => {
 };
 
 export const useCreateUser = () => {
+  const {refetch} = useQuery<GetUsersResponse, {filter: {userId: {alloftext: string}}}>(GetUsers, {skip: true});
   const [create] = useMutation<CreateUserResponse, CreateUserRequest>(CreateUser);
 
-  return async (user: User) => {
+  return async (user: Omit<User, 'id'>) => {
+    const {data} = await refetch({
+      filter: {
+        userId: {
+          alloftext: user.userId,
+        },
+      },
+    });
+
+    if (data.queryUser[0]) {
+      return undefined;
+    }
+
     const response = await create({
       variables: {
         input: [user],
@@ -35,7 +50,7 @@ export const useCreateUser = () => {
     const responseUser = response.data?.addUser.user;
 
     if (responseUser) {
-      Cookie.set('token', user.id);
+      Cookie.set('token', user.userId);
     }
 
     return responseUser;

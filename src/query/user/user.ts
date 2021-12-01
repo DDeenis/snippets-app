@@ -2,6 +2,7 @@ import {gql} from '@apollo/client';
 
 export interface User {
   id: string;
+  userId: string;
   firstName?: string;
   lastName?: string;
 }
@@ -13,14 +14,15 @@ export interface GetUsersResponse {
 export const UserFragment = gql`
   fragment UserFragment on User {
     id
+    userId
     firstName
     lastName
   }
 `;
 
 export const GetUsers = gql`
-  query getAllUsers {
-    queryUser {
+  query getAllUsers($filter: UserFilter) {
+    queryUser(filter: $filter) {
       ...UserFragment
     }
   }
@@ -37,7 +39,7 @@ export interface GetUserResponse {
 }
 
 export const GetUser = gql`
-  query getAllUsers($id: ID!) {
+  query getUser($id: ID!) {
     getUser(id: $id) {
       ...UserFragment
     }
@@ -47,7 +49,7 @@ export const GetUser = gql`
 `;
 
 export interface CreateUserRequest {
-  input: [User];
+  input: [Omit<User, 'id'>];
 }
 
 export interface CreateUserResponse {
@@ -57,7 +59,7 @@ export interface CreateUserResponse {
 }
 
 export const CreateUser = gql`
-  mutation MyMutation($input: [AddUserInput!]) {
+  mutation createUser($input: [AddUserInput!]!) {
     addUser(input: $input) {
       user {
         ...UserFragment
