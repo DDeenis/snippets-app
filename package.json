@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsgql": "node gql-ts.js"
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
@@ -27,13 +28,17 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/graphql": "^14.5.0",
     "@types/js-cookie": "^3.0.1",
     "@types/prismjs": "^1.16.6",
     "@types/react": "17.0.30",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "apollo": "^2.33.9",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^8.3.0",
+    "graphql-import": "^1.0.2",
+    "graphql-schema-typescript": "^1.5.2",
     "prettier": "^2.4.1",
     "typescript": "4.4.4"
   }

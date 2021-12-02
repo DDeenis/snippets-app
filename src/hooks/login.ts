@@ -1,5 +1,6 @@
 import {useMutation, useQuery} from '@apollo/client';
 import Cookie from 'js-cookie';
+import {GQLUserFilter} from '../graphql.schema';
 import {
   CreateUser,
   CreateUserRequest,
@@ -25,14 +26,14 @@ export const useCurrentUser = () => {
 };
 
 export const useCreateUser = () => {
-  const {refetch} = useQuery<GetUsersResponse, {filter: {userId: {alloftext: string}}}>(GetUsers, {skip: true});
+  const {refetch} = useQuery<GetUsersResponse, {filter: GQLUserFilter}>(GetUsers, {skip: true});
   const [create] = useMutation<CreateUserResponse, CreateUserRequest>(CreateUser);
 
   return async (user: Omit<User, 'id'>) => {
     const {data} = await refetch({
       filter: {
         userId: {
-          alloftext: user.userId,
+          eq: user.userId,
         },
       },
     });
