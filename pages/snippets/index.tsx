@@ -3,7 +3,7 @@ import {useQuery} from '@apollo/client';
 import {Container} from '@chakra-ui/layout';
 import {useEffect} from 'react';
 import {GetSnippets, GetSnippetsResponse, Snippet} from '../../src/query/snippets';
-import SnippetComponent from '../../src/components/Snippet';
+import SnippetComponent from '../../src/components/Snippet/Snippet';
 import Prism from 'prismjs';
 
 const SnippetsPage: NextPage<{snippets: Snippet[]}> = () => {

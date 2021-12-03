@@ -14,16 +14,8 @@ import {SnippetForm, snippetResolver} from '../../src/helpers/forms/snippet';
 import {useLanguages} from '../../src/hooks/language';
 import {useCreateUser, useCurrentUser} from '../../src/hooks/login';
 import {useCreateSnippet} from '../../src/hooks/snippet';
-import dynamic from 'next/dynamic';
-import '@uiw/react-textarea-code-editor/dist.css';
 import {useRouter} from 'next/dist/client/router';
-
-const CodeEditor = dynamic(
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  () => import('@uiw/react-textarea-code-editor').then((mod) => mod.default),
-  {ssr: false},
-);
+import Editor from '@monaco-editor/react';
 
 const CreateSnippet: NextPage = () => {
   const {register, handleSubmit, formState, watch, setValue} = useForm<SnippetForm>({
@@ -62,7 +54,7 @@ const CreateSnippet: NextPage = () => {
     }).then(() => push(routes.nav.allSnippets));
   });
 
-  const handleChangeCode = (e: any) => setValue('code', e.target.value);
+  const handleChangeCode = (val?: string) => setValue('code', val ?? '');
 
   const inputStyles = {
     borderColor: 'yellow.600',
@@ -110,12 +102,12 @@ const CreateSnippet: NextPage = () => {
             ))}
           </Select>
           <ErrorMessage message={errors.language?.message} />
-          <CodeEditor
-            language={watch('language')}
-            placeholder="Paste your code here"
+          <Editor
+            height="600px"
+            theme="vs-dark"
+            defaultLanguage="javascript"
+            language={watch('language').toLowerCase()}
             onChange={handleChangeCode}
-            className="create-code-editor"
-            padding={15}
           />
           <ErrorMessage message={errors.code?.message} />
           <Box mt="auto" display="flex" justifyContent="flex-end" gridGap="3">
