@@ -14,3 +14,28 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.create-code-editor {
+  overflow: visible !important;
+  background-color: #2d2d2d !important;
+  caret-color: white;
+  height: 100vh !important;
+  border-radius: 0.375rem;
+  max-height: 600px;
+}
+
+.create-code-editor > * {
+  font-size: 1rem !important;
+}
+
+.create-code-editor > textarea {
+  border-radius: 0.375rem;
+  color: black !important;
+  border: 1px solid #b7791f !important;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 200ms;
+}
+
+.create-code-editor > textarea::placeholder {
+  color: white !important;
+}

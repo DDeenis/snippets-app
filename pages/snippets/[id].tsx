@@ -41,7 +41,7 @@ const SnippetPage: NextPage<{snippet: Snippet}> = ({snippet}) => {
             <Text isTruncated>{snippet.Language.name}</Text>
           </Box>
           <Box py={1} px={2} maxW="max-content" bg="yellow.400" borderRadius="lg">
-            <Link href={`/users/${snippet.User.id}`}>{`${snippet.User.firstName} ${snippet.User.lastName}`}</Link>
+            <Link href={`/users/${snippet.User.id}`}>{`${snippet.User.firstName} ${snippet.User.lastName ?? ''}`}</Link>
           </Box>
         </Box>
         <pre style={{margin: 0}} className={`language-${snippet.Language.name.toLowerCase()}`}>

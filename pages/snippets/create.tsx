@@ -15,9 +15,18 @@ import {SnippetForm, snippetResolver} from '../../src/helpers/forms/snippet';
 import {useLanguages} from '../../src/hooks/language';
 import {useCreateUser, useCurrentUser} from '../../src/hooks/login';
 import {useCreateSnippet} from '../../src/hooks/snippet';
+import dynamic from 'next/dynamic';
+import '@uiw/react-textarea-code-editor/dist.css';
+
+const CodeEditor = dynamic(
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  () => import('@uiw/react-textarea-code-editor').then((mod) => mod.default),
+  {ssr: false},
+);
 
 const CreateSnippet: NextPage = () => {
-  const {register, handleSubmit, formState} = useForm<SnippetForm>({
+  const {register, handleSubmit, formState, watch} = useForm<SnippetForm>({
     resolver: snippetResolver,
   });
   const languages = useLanguages();
@@ -59,12 +68,12 @@ const CreateSnippet: NextPage = () => {
       borderColor: 'yellow.500',
     },
   };
+  console.log(watch('language'));
 
   return (
     <Center>
       <Box
         maxW="container.md"
-        maxH="container.md"
         w="100%"
         bg="yellow.200"
         boxShadow="md"
@@ -74,22 +83,39 @@ const CreateSnippet: NextPage = () => {
         display="flex"
         flexDirection="column"
       >
-        <FormControl as="form" onSubmit={onSubmit} display="flex" flexDirection="column" gridGap="3">
-          <Input label="Name" placeholder="Name" {...register('name')} {...inputStyles} />
+        <FormControl
+          as="form"
+          onSubmit={onSubmit}
+          display="flex"
+          flexDirection="column"
+          gridGap="3"
+          minH="container.md"
+        >
+          <Input
+            label="Name"
+            placeholder="Name"
+            isInvalid={Boolean(errors.name?.message)}
+            {...register('name')}
+            {...inputStyles}
+          />
           <ErrorMessage message={errors.name?.message} />
-          <Select {...register('language')} {...inputStyles}>
+          <Select
+            isInvalid={Boolean(errors.language?.message)}
+            defaultValue="JavaScript"
+            {...register('language')}
+            {...inputStyles}
+          >
             {languages?.map((l) => (
               <option key={l.id}>{l.name}</option>
             ))}
           </Select>
           <ErrorMessage message={errors.language?.message} />
-          <Textarea
-            placeholder="Paste your code here"
-            resize={'none'}
-            h="100vh"
-            maxH="md"
+          <CodeEditor
             {...register('code')}
-            {...inputStyles}
+            language={watch('language')}
+            placeholder="Paste your code here"
+            className="create-code-editor"
+            padding={15}
           />
           <ErrorMessage message={errors.code?.message} />
           <Box mt="auto" display="flex" justifyContent="flex-end" gridGap="3">
