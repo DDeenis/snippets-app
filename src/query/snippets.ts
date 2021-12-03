@@ -1,6 +1,7 @@
 import {gql} from '@apollo/client';
-import {Language, LanguageFragment} from '../language/language';
-import {User, UserFragment} from '../user/user';
+import {GQLAddSnippetInput} from '../graphql.schema';
+import {Language, LanguageFragment} from './language';
+import {User, UserFragment} from './user';
 
 export interface Snippet {
   id: string;
@@ -58,6 +59,10 @@ export const GetSnippet = gql`
 
   ${SnippetFragment}
 `;
+
+export interface CreateSnippetRequest {
+  input: [GQLAddSnippetInput];
+}
 
 export interface CreateSnippetResponse {
   addSnippet: {

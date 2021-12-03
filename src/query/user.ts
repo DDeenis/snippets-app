@@ -1,10 +1,12 @@
 import {gql} from '@apollo/client';
+import {GQLAddUserInput} from '../graphql.schema';
 
 export interface User {
   id: string;
   userId: string;
   firstName?: string;
   lastName?: string;
+  __typename?: string;
 }
 
 export interface GetUsersResponse {
@@ -49,12 +51,12 @@ export const GetUser = gql`
 `;
 
 export interface CreateUserRequest {
-  input: [Omit<User, 'id'>];
+  input: [GQLAddUserInput];
 }
 
 export interface CreateUserResponse {
   addUser: {
-    user: User;
+    user: User[];
   };
 }
 

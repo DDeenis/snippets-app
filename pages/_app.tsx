@@ -5,8 +5,8 @@ import {initializeApollo, useApollo} from '../utils/libs/apolloClient';
 import {GetStaticProps} from 'next';
 import {ChakraProvider} from '@chakra-ui/react';
 import {Layout} from '../src/components/layouts/Layout';
-import {GetUsers, GetUsersResponse} from '../src/query/user/user';
-import {GetSnippets, GetSnippetsResponse} from '../src/query/snippets/snippets';
+import {GetUsers, GetUsersResponse} from '../src/query/user';
+import {GetSnippets, GetSnippetsResponse} from '../src/query/snippets';
 import {UserProvider} from '@auth0/nextjs-auth0';
 import 'prismjs/themes/prism-tomorrow.css';
 

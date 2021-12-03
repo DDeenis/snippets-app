@@ -9,7 +9,7 @@ export interface SnippetForm {
 
 const snippetSchema = yup.object({
   name: yup.string().max(50).required(),
-  code: yup.string().max(500).required(),
+  code: yup.string().max(2500).required(),
   language: yup.string().required(),
 });
 

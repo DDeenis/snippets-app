@@ -1,6 +1,6 @@
 import {Box, Container, Text} from '@chakra-ui/layout';
 import {NextPage} from 'next';
-import {Snippet} from '../../query/snippets/snippets';
+import {Snippet} from '../../query/snippets';
 import {Accordion, AccordionIcon, AccordionPanel, AccordionButton, AccordionItem} from '@chakra-ui/accordion';
 import Link from 'next/link';
 
@@ -25,7 +25,7 @@ const SnippetComponent: NextPage<SnippetProps> = ({snippet, preview = true}) => 
           <Text isTruncated>{snippet.Language.name}</Text>
         </Box>
         <Box py={1} px={2} maxW="max-content" bg="yellow.400" borderRadius="lg" ml="auto">
-          <Link href={`/users/${snippet.User.id}`}>{`${snippet.User.firstName} ${snippet.User.lastName}`}</Link>
+          <Link href={`/users/${snippet.User.id}`}>{`${snippet.User.firstName} ${snippet.User.lastName ?? ''}`}</Link>
         </Box>
       </Box>
       <Box mx="auto" py={2} bg={'orange.800'} borderRadius="md">

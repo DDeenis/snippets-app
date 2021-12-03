@@ -9,18 +9,22 @@ import {GetServerSideProps, NextPage} from 'next';
 import {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {BottomButton} from '../../src/components/BackButton/BottomButton';
+import {ErrorMessage} from '../../src/components/Form/ErrorMessage';
 import {routes} from '../../src/constants/routes';
 import {SnippetForm, snippetResolver} from '../../src/helpers/forms/snippet';
 import {useLanguages} from '../../src/hooks/language';
-import {useCreateUser} from '../../src/hooks/login';
+import {useCreateUser, useCurrentUser} from '../../src/hooks/login';
+import {useCreateSnippet} from '../../src/hooks/snippet';
 
 const CreateSnippet: NextPage = () => {
-  const {register, handleSubmit} = useForm<SnippetForm>({
+  const {register, handleSubmit, formState} = useForm<SnippetForm>({
     resolver: snippetResolver,
   });
   const languages = useLanguages();
+  const currentUser = useCurrentUser();
   const {user} = useUser();
   const createUser = useCreateUser();
+  const createSnippet = useCreateSnippet();
 
   useEffect(() => {
     if (user) {
@@ -33,8 +37,16 @@ const CreateSnippet: NextPage = () => {
     }
   }, []);
 
+  const {errors} = formState;
   const onSubmit = handleSubmit((formData: SnippetForm) => {
-    console.log(formData);
+    createSnippet({
+      User: currentUser,
+      Language: {
+        id: languages?.find((l) => l.name == formData.language)?.id ?? '',
+      },
+      name: formData.name,
+      code: formData.code,
+    });
   });
 
   const inputStyles = {
@@ -63,21 +75,23 @@ const CreateSnippet: NextPage = () => {
         flexDirection="column"
       >
         <FormControl as="form" onSubmit={onSubmit} display="flex" flexDirection="column" gridGap="3">
-          <Input label="Name" placeholder="Name" {...register('name')} isRequired {...inputStyles} />
-          <Select isRequired {...register('language')} {...inputStyles}>
+          <Input label="Name" placeholder="Name" {...register('name')} {...inputStyles} />
+          <ErrorMessage message={errors.name?.message} />
+          <Select {...register('language')} {...inputStyles}>
             {languages?.map((l) => (
               <option key={l.id}>{l.name}</option>
             ))}
           </Select>
+          <ErrorMessage message={errors.language?.message} />
           <Textarea
             placeholder="Paste your code here"
             resize={'none'}
             h="100vh"
             maxH="md"
-            isRequired
             {...register('code')}
             {...inputStyles}
-          ></Textarea>
+          />
+          <ErrorMessage message={errors.code?.message} />
           <Box mt="auto" display="flex" justifyContent="flex-end" gridGap="3">
             <BottomButton icon={<CheckIcon />} text={'Submit'} type="submit" />
             <BottomButton icon={<CloseIcon />} text={'Cancel'} link={routes.nav.allSnippets} type="button" />

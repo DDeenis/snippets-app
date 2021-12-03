@@ -1,6 +1,6 @@
 import {useQuery} from '@apollo/client';
 import {NextPage} from 'next';
-import {GetUsers, GetUsersResponse} from '../src/query/user/user';
+import {GetUsers, GetUsersResponse} from '../src/query/user';
 
 const UsersPage: NextPage = () => {
   const {data, loading} = useQuery<GetUsersResponse>(GetUsers);

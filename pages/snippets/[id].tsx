@@ -2,7 +2,7 @@ import {GetServerSideProps, NextPage} from 'next';
 import {useEffect} from 'react';
 import Prism from 'prismjs';
 import {initializeApollo} from '../../utils/libs/apolloClient';
-import {GetSnippet, GetSnippetRequest, GetSnippetResponse, Snippet} from '../../src/query/snippets/snippets';
+import {GetSnippet, GetSnippetRequest, GetSnippetResponse, Snippet} from '../../src/query/snippets';
 import {Box, Center, Text} from '@chakra-ui/layout';
 import {ArrowBackIcon} from '@chakra-ui/icons';
 import Link from 'next/link';
