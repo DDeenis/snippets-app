@@ -3,10 +3,9 @@ import {FormControl} from '@chakra-ui/form-control';
 import {CloseIcon, CheckIcon} from '@chakra-ui/icons';
 import {Input} from '@chakra-ui/input';
 import {Box, Center} from '@chakra-ui/layout';
-import {Textarea} from '@chakra-ui/react';
 import {Select} from '@chakra-ui/select';
 import {GetServerSideProps, NextPage} from 'next';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {BottomButton} from '../../src/components/BackButton/BottomButton';
 import {ErrorMessage} from '../../src/components/Form/ErrorMessage';
@@ -17,6 +16,7 @@ import {useCreateUser, useCurrentUser} from '../../src/hooks/login';
 import {useCreateSnippet} from '../../src/hooks/snippet';
 import dynamic from 'next/dynamic';
 import '@uiw/react-textarea-code-editor/dist.css';
+import {useRouter} from 'next/dist/client/router';
 
 const CodeEditor = dynamic(
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -26,12 +26,16 @@ const CodeEditor = dynamic(
 );
 
 const CreateSnippet: NextPage = () => {
-  const {register, handleSubmit, formState, watch} = useForm<SnippetForm>({
+  const {register, handleSubmit, formState, watch, setValue} = useForm<SnippetForm>({
     resolver: snippetResolver,
+    defaultValues: {
+      language: 'JavaScript',
+    },
   });
   const languages = useLanguages();
   const currentUser = useCurrentUser();
   const {user} = useUser();
+  const {push} = useRouter();
   const createUser = useCreateUser();
   const createSnippet = useCreateSnippet();
 
@@ -55,8 +59,10 @@ const CreateSnippet: NextPage = () => {
       },
       name: formData.name,
       code: formData.code,
-    });
+    }).then(() => push(routes.nav.allSnippets));
   });
+
+  const handleChangeCode = (e: any) => setValue('code', e.target.value);
 
   const inputStyles = {
     borderColor: 'yellow.600',
@@ -68,7 +74,6 @@ const CreateSnippet: NextPage = () => {
       borderColor: 'yellow.500',
     },
   };
-  console.log(watch('language'));
 
   return (
     <Center>
@@ -99,21 +104,16 @@ const CreateSnippet: NextPage = () => {
             {...inputStyles}
           />
           <ErrorMessage message={errors.name?.message} />
-          <Select
-            isInvalid={Boolean(errors.language?.message)}
-            defaultValue="JavaScript"
-            {...register('language')}
-            {...inputStyles}
-          >
+          <Select isInvalid={Boolean(errors.language?.message)} {...register('language')} {...inputStyles}>
             {languages?.map((l) => (
               <option key={l.id}>{l.name}</option>
             ))}
           </Select>
           <ErrorMessage message={errors.language?.message} />
           <CodeEditor
-            {...register('code')}
             language={watch('language')}
             placeholder="Paste your code here"
+            onChange={handleChangeCode}
             className="create-code-editor"
             padding={15}
           />
