@@ -6,7 +6,7 @@ export const routes = {
     profile: '/profile',
   },
   auth: {
-    login: 'api/auth/login',
-    logout: 'api/auth/logout',
+    login: `/api/auth/login`,
+    logout: `/api/auth/logout`,
   },
 };
