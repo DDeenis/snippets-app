@@ -12,7 +12,7 @@ import {ErrorMessage} from '../../src/components/Form/ErrorMessage';
 import {routes} from '../../src/constants/routes';
 import {SnippetForm, snippetResolver} from '../../src/helpers/forms/snippet';
 import {useLanguages} from '../../src/hooks/language';
-import {useCreateUser, useCurrentUser} from '../../src/hooks/login';
+import {useCreateUser, useUserProfile} from '../../src/hooks/login';
 import {useCreateSnippet} from '../../src/hooks/snippet';
 import {useRouter} from 'next/dist/client/router';
 import Editor from '@monaco-editor/react';
@@ -25,7 +25,7 @@ const CreateSnippet: NextPage = () => {
     },
   });
   const languages = useLanguages();
-  const currentUser = useCurrentUser();
+  const currentUser = useUserProfile();
   const {user} = useUser();
   const {push} = useRouter();
   const createUser = useCreateUser();

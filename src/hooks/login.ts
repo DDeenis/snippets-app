@@ -22,7 +22,7 @@ const normalizeUser = (user?: User): User => {
   };
 };
 
-export const useCurrentUser = () => {
+export const useUserProfile = () => {
   const token = Cookie.get('token') ?? '';
 
   const {data} = useQuery<GetUserResponse, GetUserRequest>(GetUser, {

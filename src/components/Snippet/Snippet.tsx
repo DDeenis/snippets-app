@@ -37,13 +37,18 @@ const SnippetComponent: NextPage<SnippetProps> = ({snippet, preview = true}) => 
         {preview ? (
           <Accordion allowToggle>
             <AccordionItem border="none">
-              <AccordionButton bg="yellow.400" _focus={{boxShadow: 'none'}} _hover={{background: 'yellow.400'}}>
+              <AccordionButton
+                bg="yellow.400"
+                borderRadius="0.375rem 0.375rem 0 0"
+                _focus={{boxShadow: 'none'}}
+                _hover={{background: 'yellow.400'}}
+              >
                 <Box flex="1" textAlign="left">
                   Show code
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
-              <AccordionPanel p={0} bg="orange.300">
+              <AccordionPanel p={0} bg="orange.300" borderRadius="0 0 0.375rem 0.375rem" overflow="hidden">
                 {codeSection}
               </AccordionPanel>
             </AccordionItem>
