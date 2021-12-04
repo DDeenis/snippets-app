@@ -2,7 +2,7 @@ import {useUser} from '@auth0/nextjs-auth0';
 import {FormControl} from '@chakra-ui/form-control';
 import {CloseIcon, CheckIcon} from '@chakra-ui/icons';
 import {Input} from '@chakra-ui/input';
-import {Box, Center, Link, Text} from '@chakra-ui/layout';
+import {Box, Center, Container, Link, Text} from '@chakra-ui/layout';
 import {Select} from '@chakra-ui/select';
 import {NextPage} from 'next';
 import React, {useEffect} from 'react';
@@ -69,7 +69,7 @@ const CreateSnippet: NextPage = () => {
 
   return (
     <Center>
-      <Box
+      <Container
         maxW="container.md"
         w="100%"
         bg="yellow.200"
@@ -124,7 +124,7 @@ const CreateSnippet: NextPage = () => {
             <BottomButton icon={<CloseIcon />} text={'Cancel'} link={routes.nav.allSnippets} type="button" />
           </Box>
         </FormControl>
-      </Box>
+      </Container>
     </Center>
   );
 };
