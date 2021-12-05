@@ -6,7 +6,6 @@ export interface User {
   userId: string;
   firstName?: string;
   lastName?: string;
-  __typename?: string;
 }
 
 export interface GetUsersResponse {
