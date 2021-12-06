@@ -2,12 +2,15 @@ import {withPageAuthRequired} from '@auth0/nextjs-auth0';
 import {GetServerSideProps, NextPage} from 'next';
 import {useEffect} from 'react';
 import Prism from 'prismjs';
-import {Container} from '@chakra-ui/layout';
-import SnippetComponent from '../../src/components/Snippet/Snippet';
-import {usePersonalSnippets} from '../../src/hooks/snippet';
+import {usePagedSnippets} from '../../src/hooks/snippet';
+import {SnippetsList} from '../../src/components/SnippetsList/SnippetsList';
+import {useUserProfile} from '../../src/hooks/login';
 
 const PersonalSnippets: NextPage = () => {
-  const {snippets} = usePersonalSnippets();
+  const user = useUserProfile();
+  const {snippets, handleFetchMore, hasMore} = usePagedSnippets((snippets) =>
+    snippets?.filter((s) => s.User.id === user.id),
+  );
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -15,13 +18,7 @@ const PersonalSnippets: NextPage = () => {
     }
   }, [snippets?.length]);
 
-  return (
-    <Container px={{md: 4, sm: 0}} py={3} maxW="100%" display="flex" flexDir="column" gridGap="6">
-      {snippets?.map((snippet) => (
-        <SnippetComponent key={snippet.id} snippet={snippet} />
-      ))}
-    </Container>
-  );
+  return <SnippetsList snippets={snippets} fetchMore={handleFetchMore} hasMore={hasMore} />;
 };
 
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired();

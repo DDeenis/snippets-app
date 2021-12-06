@@ -33,8 +33,8 @@ export interface GetSnippetsResponse {
 }
 
 export const GetSnippets = gql`
-  query getSnippets($filter: SnippetFilter) {
-    querySnippet(filter: $filter) {
+  query getSnippets($filter: SnippetFilter, $first: Int, $offset: Int) {
+    querySnippet(filter: $filter, first: $first, offset: $offset) {
       ...SnippetFragment
     }
   }

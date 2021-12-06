@@ -2,6 +2,7 @@ import {useMemo} from 'react';
 import {ApolloClient, from, HttpLink, InMemoryCache, NormalizedCacheObject} from '@apollo/client';
 import {onError} from '@apollo/client/link/error';
 import {GRAPHQL_URL} from '../../src/constants/env';
+import {offsetLimitPagination} from '@apollo/client/utilities';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
@@ -22,7 +23,18 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: from([errorLink, httpLink]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Snippets: {
+          merge: true,
+        },
+        Query: {
+          fields: {
+            Snippets: offsetLimitPagination(),
+          },
+        },
+      },
+    }),
   });
 }
 
