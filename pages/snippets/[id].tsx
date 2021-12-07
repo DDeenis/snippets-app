@@ -11,7 +11,7 @@ import {routes} from '../../src/constants/routes';
 
 const SnippetPage: NextPage<{snippet: Snippet}> = ({snippet}) => {
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (window) {
       Prism.highlightAll();
     }
   }, []);

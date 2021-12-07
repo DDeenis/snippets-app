@@ -12,10 +12,9 @@ interface SnippetsListProps {
 
 export const SnippetsList: React.FC<SnippetsListProps> = ({snippets, fetchMore, hasMore}) => {
   return (
-    <Container px={{md: 4, sm: 0}} py={3} maxW="100%">
+    <Container px={{md: 4, sm: 0}} py={3} maxW="100%" display="flex" flexDir="column" gridGap="6">
       <InfiniteScroll
         loadMore={fetchMore}
-        pageStart={0}
         useWindow={true}
         hasMore={hasMore}
         loader={
@@ -24,9 +23,7 @@ export const SnippetsList: React.FC<SnippetsListProps> = ({snippets, fetchMore, 
           </Text>
         }
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.25rem',
+          all: 'inherit',
         }}
       >
         {snippets?.map((snippet) => (

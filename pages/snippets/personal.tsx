@@ -13,7 +13,7 @@ const PersonalSnippets: NextPage = () => {
   );
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (window) {
       Prism.highlightAll();
     }
   }, [snippets?.length]);

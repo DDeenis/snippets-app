@@ -74,8 +74,10 @@ export const usePagedSnippets = (filterFunc?: (snippets?: Snippet[]) => Snippet[
     }
   }, [snippetsBase?.length]);
 
+  const snippetsResult = filterFunc ? filterFunc(snippets) : snippets;
+
   return {
-    snippets: filterFunc ? filterFunc(snippets) : snippets,
+    snippets: snippetsResult,
     handleFetchMore,
     hasMore,
   };
