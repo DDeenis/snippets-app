@@ -1,7 +1,6 @@
 import {useUser} from '@auth0/nextjs-auth0';
 import {FormControl} from '@chakra-ui/form-control';
 import {CloseIcon, CheckIcon} from '@chakra-ui/icons';
-import {Input} from '@chakra-ui/input';
 import {Box, Center, Container, Link, Text} from '@chakra-ui/layout';
 import {Select} from '@chakra-ui/select';
 import {NextPage} from 'next';
@@ -16,6 +15,7 @@ import {useCreateUser, useUserProfile} from '../../src/hooks/login';
 import {useCreateSnippet} from '../../src/hooks/snippet';
 import {useRouter} from 'next/dist/client/router';
 import Editor from '@monaco-editor/react';
+import {Input} from '../../src/components/Form/Input';
 
 const CreateSnippet: NextPage = () => {
   const {register, handleSubmit, formState, watch, setValue} = useForm<SnippetForm>({
@@ -88,13 +88,7 @@ const CreateSnippet: NextPage = () => {
           gridGap="3"
           minH="container.md"
         >
-          <Input
-            label="Name"
-            placeholder="Name"
-            isInvalid={Boolean(errors.name?.message)}
-            {...register('name')}
-            {...inputStyles}
-          />
+          <Input label="Name" placeholder="Name" isInvalid={Boolean(errors.name?.message)} {...register('name')} />
           <ErrorMessage message={errors.name?.message} />
           <Select isInvalid={Boolean(errors.language?.message)} {...register('language')} {...inputStyles}>
             {languages?.map((l) => (

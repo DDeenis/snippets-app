@@ -1,12 +1,12 @@
 import {Box, Text} from '@chakra-ui/layout';
 import {FC} from 'react';
 
-interface ProfleEntryProps {
+interface ProfleInfoEntryProps {
   label: string;
   value?: string;
 }
 
-export const ProfleEntry: FC<ProfleEntryProps> = ({label, value}) => {
+export const ProfleInfoEntry: FC<ProfleInfoEntryProps> = ({label, value}) => {
   return (
     <Box display="flex" flexDirection="column" gridGap="1">
       <Text fontWeight="semibold" fontSize="md">

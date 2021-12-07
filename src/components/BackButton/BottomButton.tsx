@@ -23,6 +23,7 @@ export const BottomButton: React.FC<BackButtonProps> = ({icon, text, link, ...pr
       py={1}
       px={2}
       w="max-content"
+      minW="7rem"
       bg="yellow.400"
       borderRadius="lg"
       cursor="pointer"

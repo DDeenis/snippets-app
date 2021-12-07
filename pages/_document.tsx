@@ -6,6 +6,8 @@ class CustomDocument extends Document {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
+          <meta lang="em" />
+          <title>Snippets</title>
         </Head>
         <body>
           <Main />
