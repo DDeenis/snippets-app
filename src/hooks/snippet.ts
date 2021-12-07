@@ -46,7 +46,7 @@ export const usePersonalSnippets = () => {
   };
 };
 
-export const usePagedSnippets = (filtetFunc?: (snippets?: Snippet[]) => Snippet[] | undefined) => {
+export const usePagedSnippets = (filterFunc?: (snippets?: Snippet[]) => Snippet[] | undefined) => {
   const {snippets: snippetsBase, fetchMore} = useSnippets();
   const [hasMore, setHasMore] = useState(true);
   const [snippets, setSnippets] = useState(snippetsBase);
@@ -75,7 +75,7 @@ export const usePagedSnippets = (filtetFunc?: (snippets?: Snippet[]) => Snippet[
   }, [snippetsBase?.length]);
 
   return {
-    snippets: filtetFunc ? filtetFunc(snippets) : snippets,
+    snippets: filterFunc ? filterFunc(snippets) : snippets,
     handleFetchMore,
     hasMore,
   };
