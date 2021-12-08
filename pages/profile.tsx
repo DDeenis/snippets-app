@@ -21,13 +21,18 @@ const Profile: NextPage = () => {
   const [isForm, setIsForm] = useState(false);
   const userProfile = useUserProfile();
   const {user} = useUser();
-  const {register, handleSubmit} = useForm<UserProfileForm>({
+  const defaultValues = {
+    firstName: userProfile.firstName,
+    lastName: userProfile.lastName,
+    email: user?.email ?? '',
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<UserProfileForm>({
+    defaultValues,
     resolver: userResolver,
-    defaultValues: {
-      firstName: userProfile.firstName,
-      lastName: userProfile.lastName,
-      email: user?.email ?? '',
-    },
   });
 
   const handleEditStart = () => setIsForm(true);
@@ -60,18 +65,36 @@ const Profile: NextPage = () => {
         <Box display="flex" flexDir="column" gridGap="5">
           <Box display="grid" gridTemplateColumns={{md: 'repeat(2, 1fr)', sm: '1fr'}} gridGap="4">
             {isForm ? (
-              <ProfleFormEntry label="First name" {...register('firstName')} />
+              <ProfleFormEntry
+                label="First name"
+                placeholder="First name"
+                isInvalid={Boolean(errors['firstName'])}
+                error={errors['firstName']?.message}
+                {...register('firstName')}
+              />
             ) : (
               <ProfleInfoEntry label="First name" value={userProfile.firstName} />
             )}
             {isForm ? (
-              <ProfleFormEntry label="Last name" {...register('lastName')} />
+              <ProfleFormEntry
+                label="Last name"
+                placeholder="Last name"
+                isInvalid={Boolean(errors['lastName'])}
+                error={errors['lastName']?.message}
+                {...register('lastName')}
+              />
             ) : (
               <ProfleInfoEntry label="Last name" value={userProfile.lastName} />
             )}
           </Box>
           {isForm ? (
-            <ProfleFormEntry label="Email" {...register('email')} />
+            <ProfleFormEntry
+              label="Email"
+              placeholder="Email"
+              isInvalid={Boolean(errors['email'])}
+              error={errors['email']?.message}
+              {...register('email')}
+            />
           ) : (
             <ProfleInfoEntry label="Email" value={user?.email ?? ''} />
           )}
