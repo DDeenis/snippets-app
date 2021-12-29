@@ -11,6 +11,9 @@ import {
   GetUserResponse,
   GetUsers,
   GetUsersResponse,
+  UpdateUser,
+  UpdateUserRequest,
+  UpdateUserResponse,
   User,
 } from '../query/user';
 
@@ -41,7 +44,9 @@ export const useUserInfo = (): UserInfo => {
   const user = useUserProfile();
   const {user: userProfile} = useUser();
 
-  return {...userProfile, ...user};
+  const userInfo: UserInfo = {...userProfile, ...user, email: user.email || userProfile?.email || ''};
+
+  return userInfo;
 };
 
 export const useCreateUser = () => {
@@ -78,5 +83,20 @@ export const useCreateUser = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+};
+
+export const useUpdateUser = (userId: string) => {
+  const [update] = useMutation<UpdateUserResponse, UpdateUserRequest>(UpdateUser);
+
+  return async (user: Omit<User, 'id'>) => {
+    const result = await update({
+      variables: {
+        id: [userId],
+        set: user,
+      },
+    });
+
+    return result.data?.user;
   };
 };

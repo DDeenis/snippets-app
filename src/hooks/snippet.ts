@@ -10,7 +10,7 @@ import {
   GetSnippetsResponse,
   Snippet,
 } from '../query/snippets';
-import {useUserProfile} from './login';
+import {useUserProfile} from './user';
 
 const defaultFirst = 10;
 const defaultOffset = 0;

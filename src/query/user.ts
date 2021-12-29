@@ -1,11 +1,12 @@
 import {gql} from '@apollo/client';
-import {GQLAddUserInput} from '../graphql.schema';
+import {GQLAddUserInput, GQLUserPatch} from '../graphql.schema';
 
 export interface User {
   id: string;
   userId: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
 }
 
 export interface GetUsersResponse {
@@ -18,6 +19,7 @@ export const UserFragment = gql`
     userId
     firstName
     lastName
+    email
   }
 `;
 
@@ -62,6 +64,28 @@ export interface CreateUserResponse {
 export const CreateUser = gql`
   mutation createUser($input: [AddUserInput!]!) {
     addUser(input: $input) {
+      user {
+        ...UserFragment
+      }
+    }
+  }
+
+  ${UserFragment}
+`;
+
+export interface UpdateUserRequest {
+  id: string[];
+  set?: GQLUserPatch;
+  remove?: GQLUserPatch;
+}
+
+export interface UpdateUserResponse {
+  user: User[];
+}
+
+export const UpdateUser = gql`
+  mutation updateUser($id: [ID!], $set: UserPatch, $remove: UserPatch) {
+    updateUser(input: {filter: {id: $id}, set: $set, remove: $remove}) {
       user {
         ...UserFragment
       }

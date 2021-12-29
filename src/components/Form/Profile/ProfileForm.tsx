@@ -3,7 +3,7 @@ import {Box, Center, Container, Text} from '@chakra-ui/react';
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {UserProfileForm, userResolver} from '../../../helpers/forms/user';
-import {UserInfo} from '../../../hooks/login';
+import {UserInfo} from '../../../hooks/user';
 import {BottomButton} from '../../BackButton/BottomButton';
 import {ProfleFormEntry} from './ProfileFormEntry';
 import {ProfleInfoEntry} from './ProfileInfoEntry';
@@ -29,7 +29,10 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({user, onSubmit, handleE
     resolver: userResolver,
   });
 
-  const handleEditProfile = handleSubmit(onSubmit);
+  const handleEditProfile = handleSubmit((formData) => {
+    onSubmit(formData);
+    handleEditEnd();
+  });
 
   return (
     <Center>

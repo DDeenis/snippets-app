@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 import Prism from 'prismjs';
 import {usePagedSnippets} from '../../src/hooks/snippet';
 import {SnippetsList} from '../../src/components/SnippetsList/SnippetsList';
-import {useUserProfile} from '../../src/hooks/login';
+import {useUserProfile} from '../../src/hooks/user';
 
 const PersonalSnippets: NextPage = () => {
   const user = useUserProfile();

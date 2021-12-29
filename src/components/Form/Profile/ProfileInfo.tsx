@@ -1,7 +1,7 @@
 import {EditIcon} from '@chakra-ui/icons';
 import {Box, Center, Container, Text} from '@chakra-ui/react';
 import React from 'react';
-import {UserInfo} from '../../../hooks/login';
+import {UserInfo} from '../../../hooks/user';
 import {BottomButton} from '../../BackButton/BottomButton';
 import {ProfleInfoEntry} from './ProfileInfoEntry';
 

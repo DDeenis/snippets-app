@@ -20,6 +20,7 @@ type User {
 	userId: String @search(by: [exact])
 	firstName: String
 	lastName: String
+	email: String
 	snippets(filter: SnippetFilter, order: SnippetOrder, first: Int, offset: Int): [Snippet]
 	snippetsAggregate(filter: SnippetFilter): SnippetAggregateResult
 }
@@ -360,6 +361,8 @@ type UserAggregateResult {
 	firstNameMax: String
 	lastNameMin: String
 	lastNameMax: String
+	emailMin: String
+	emailMax: String
 }
 
 #######################
@@ -390,6 +393,7 @@ enum UserHasFilter {
 	userId
 	firstName
 	lastName
+	email
 	snippets
 }
 
@@ -397,6 +401,7 @@ enum UserOrderable {
 	userId
 	firstName
 	lastName
+	email
 }
 
 #######################
@@ -418,6 +423,7 @@ input AddUserInput {
 	userId: String
 	firstName: String
 	lastName: String
+	email: String
 	snippets: [SnippetRef]
 }
 
@@ -510,6 +516,7 @@ input UserPatch {
 	userId: String
 	firstName: String
 	lastName: String
+	email: String
 	snippets: [SnippetRef]
 }
 
@@ -518,6 +525,7 @@ input UserRef {
 	userId: String
 	firstName: String
 	lastName: String
+	email: String
 	snippets: [SnippetRef]
 }
 

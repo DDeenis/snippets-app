@@ -1,6 +1,6 @@
 import {withPageAuthRequired} from '@auth0/nextjs-auth0';
 import {NextPage} from 'next';
-import {useUserInfo} from '../src/hooks/login';
+import {useUpdateUser, useUserInfo} from '../src/hooks/user';
 import {useState} from 'react';
 import {ProfileForm} from '../src/components/Form/Profile/ProfileForm';
 import {ProfileInfo} from '../src/components/Form/Profile/ProfileInfo';
@@ -9,11 +9,15 @@ import {UserProfileForm} from '../src/helpers/forms/user';
 const Profile: NextPage = () => {
   const [isForm, setIsForm] = useState(false);
   const user = useUserInfo();
+  const updateUser = useUpdateUser(user.id);
 
   const handleEditStart = () => setIsForm(true);
   const handleEditEnd = () => setIsForm(false);
   const handleSubmit = (formData: UserProfileForm) => {
-    console.log(formData);
+    updateUser({
+      userId: user.userId,
+      ...formData,
+    });
   };
 
   return isForm ? (

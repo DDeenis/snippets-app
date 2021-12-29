@@ -30,6 +30,7 @@ export interface GQLUser {
   userId?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
   snippets?: Array<GQLSnippet | null>;
   snippetsAggregate?: GQLSnippetAggregateResult;
 }
@@ -338,6 +339,8 @@ export interface GQLUserAggregateResult {
   firstNameMax?: string;
   lastNameMin?: string;
   lastNameMax?: string;
+  emailMin?: string;
+  emailMax?: string;
 }
 
 export enum GQLLanguageHasFilter {
@@ -364,13 +367,15 @@ export enum GQLUserHasFilter {
   userId = 'userId',
   firstName = 'firstName',
   lastName = 'lastName',
+  email = 'email',
   snippets = 'snippets'
 }
 
 export enum GQLUserOrderable {
   userId = 'userId',
   firstName = 'firstName',
-  lastName = 'lastName'
+  lastName = 'lastName',
+  email = 'email'
 }
 
 export interface GQLAddLanguageInput {
@@ -388,6 +393,7 @@ export interface GQLAddUserInput {
   userId?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
   snippets?: Array<GQLSnippetRef | null>;
 }
 
@@ -480,6 +486,7 @@ export interface GQLUserPatch {
   userId?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
   snippets?: Array<GQLSnippetRef | null>;
 }
 
@@ -488,6 +495,7 @@ export interface GQLUserRef {
   userId?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
   snippets?: Array<GQLSnippetRef | null>;
 }
 
@@ -602,6 +610,7 @@ export interface GQLUserTypeResolver<TParent = any> {
   userId?: UserToUserIdResolver<TParent>;
   firstName?: UserToFirstNameResolver<TParent>;
   lastName?: UserToLastNameResolver<TParent>;
+  email?: UserToEmailResolver<TParent>;
   snippets?: UserToSnippetsResolver<TParent>;
   snippetsAggregate?: UserToSnippetsAggregateResolver<TParent>;
 }
@@ -619,6 +628,10 @@ export interface UserToFirstNameResolver<TParent = any, TResult = any> {
 }
 
 export interface UserToLastNameResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface UserToEmailResolver<TParent = any, TResult = any> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
@@ -916,6 +929,8 @@ export interface GQLUserAggregateResultTypeResolver<TParent = any> {
   firstNameMax?: UserAggregateResultToFirstNameMaxResolver<TParent>;
   lastNameMin?: UserAggregateResultToLastNameMinResolver<TParent>;
   lastNameMax?: UserAggregateResultToLastNameMaxResolver<TParent>;
+  emailMin?: UserAggregateResultToEmailMinResolver<TParent>;
+  emailMax?: UserAggregateResultToEmailMaxResolver<TParent>;
 }
 
 export interface UserAggregateResultToCountResolver<TParent = any, TResult = any> {
@@ -943,6 +958,14 @@ export interface UserAggregateResultToLastNameMinResolver<TParent = any, TResult
 }
 
 export interface UserAggregateResultToLastNameMaxResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface UserAggregateResultToEmailMinResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface UserAggregateResultToEmailMaxResolver<TParent = any, TResult = any> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
