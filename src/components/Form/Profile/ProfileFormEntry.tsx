@@ -9,17 +9,18 @@ interface ProfleFormEntryProps<T> extends InputProps {
   control: Control<T, object>;
   name: Path<T>;
   label: string;
-  error?: string;
 }
 
 export function ProfleFormEntry<T>({
   label,
-  error,
   control,
   name,
   ...props
 }: React.PropsWithChildren<ProfleFormEntryProps<T>>): JSX.Element {
-  const {field, fieldState, formState} = useController({
+  const {
+    field,
+    fieldState: {error},
+  } = useController({
     name,
     control,
     rules: {required: true},
@@ -30,8 +31,8 @@ export function ProfleFormEntry<T>({
       <Text fontWeight="semibold" fontSize="md">
         {label}
       </Text>
-      <Input maxW="400px" {...props} {...field} {...fieldState} {...formState} />
-      <ErrorMessage message={error} />
+      <Input maxW="400px" isInvalid={Boolean(error)} {...props} {...field} />
+      <ErrorMessage message={error?.message} />
     </Box>
   );
 }

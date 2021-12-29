@@ -20,11 +20,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({user, onSubmit, handleE
     lastName: user?.lastName,
     email: user?.email ?? '',
   };
-  const {
-    handleSubmit,
-    formState: {errors},
-    control,
-  } = useForm<UserProfileForm>({
+  const {handleSubmit, control} = useForm<UserProfileForm>({
     defaultValues,
     resolver: userResolver,
   });
@@ -57,31 +53,10 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({user, onSubmit, handleE
         </Text>
         <Box display="flex" flexDir="column" gridGap="5">
           <Box display="grid" gridTemplateColumns={{md: 'repeat(2, 1fr)', sm: '1fr'}} gridGap="4">
-            <ProfleFormEntry
-              label="First name"
-              placeholder="First name"
-              isInvalid={Boolean(errors['firstName'])}
-              error={errors['firstName']?.message}
-              control={control}
-              name="firstName"
-            />
-            <ProfleFormEntry
-              label="Last name"
-              placeholder="Last name"
-              isInvalid={Boolean(errors['lastName'])}
-              error={errors['lastName']?.message}
-              control={control}
-              name="lastName"
-            />
+            <ProfleFormEntry label="First name" placeholder="First name" control={control} name="firstName" />
+            <ProfleFormEntry label="Last name" placeholder="Last name" control={control} name="lastName" />
           </Box>
-          <ProfleFormEntry
-            label="Email"
-            placeholder="Email"
-            isInvalid={Boolean(errors['email'])}
-            error={errors['email']?.message}
-            control={control}
-            name="email"
-          />
+          <ProfleFormEntry label="Email" placeholder="Email" control={control} name="email" />
           <ProfleInfoEntry label="ID" value={user?.userId} />
         </Box>
         <Box mt="auto" display="flex" justifyContent="flex-end" gridGap="3">
