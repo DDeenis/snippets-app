@@ -2,17 +2,11 @@ import {CheckIcon, CloseIcon} from '@chakra-ui/icons';
 import {Box, Center, Container, Text} from '@chakra-ui/react';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {userResolver} from '../../../helpers/forms/user';
+import {UserProfileForm, userResolver} from '../../../helpers/forms/user';
 import {UserInfo} from '../../../hooks/login';
 import {BottomButton} from '../../BackButton/BottomButton';
 import {ProfleFormEntry} from './ProfileFormEntry';
 import {ProfleInfoEntry} from './ProfileInfoEntry';
-
-interface UserProfileForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
 
 interface ProfileFormProps {
   onSubmit: (formData: UserProfileForm) => void;
@@ -27,9 +21,9 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({user, onSubmit, handleE
     email: user?.email ?? '',
   };
   const {
-    register,
     handleSubmit,
     formState: {errors},
+    control,
   } = useForm<UserProfileForm>({
     defaultValues,
     resolver: userResolver,
@@ -65,14 +59,16 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({user, onSubmit, handleE
               placeholder="First name"
               isInvalid={Boolean(errors['firstName'])}
               error={errors['firstName']?.message}
-              {...register('firstName')}
+              control={control}
+              name="firstName"
             />
             <ProfleFormEntry
               label="Last name"
               placeholder="Last name"
               isInvalid={Boolean(errors['lastName'])}
               error={errors['lastName']?.message}
-              {...register('lastName')}
+              control={control}
+              name="lastName"
             />
           </Box>
           <ProfleFormEntry
@@ -80,9 +76,9 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({user, onSubmit, handleE
             placeholder="Email"
             isInvalid={Boolean(errors['email'])}
             error={errors['email']?.message}
-            {...register('email')}
+            control={control}
+            name="email"
           />
-
           <ProfleInfoEntry label="ID" value={user?.userId} />
         </Box>
         <Box mt="auto" display="flex" justifyContent="flex-end" gridGap="3">

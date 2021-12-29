@@ -4,12 +4,7 @@ import {useUserInfo} from '../src/hooks/login';
 import {useState} from 'react';
 import {ProfileForm} from '../src/components/Form/Profile/ProfileForm';
 import {ProfileInfo} from '../src/components/Form/Profile/ProfileInfo';
-
-interface UserProfileForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+import {UserProfileForm} from '../src/helpers/forms/user';
 
 const Profile: NextPage = () => {
   const [isForm, setIsForm] = useState(false);
