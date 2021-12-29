@@ -1,4 +1,5 @@
 import {useMutation, useQuery} from '@apollo/client';
+import {UserProfile, useUser} from '@auth0/nextjs-auth0';
 import Cookie from 'js-cookie';
 import {GQLAddUserInput, GQLUserFilter} from '../graphql.schema';
 import {
@@ -32,6 +33,15 @@ export const useUserProfile = () => {
   });
 
   return normalizeUser(data?.getUser);
+};
+
+export type UserInfo = User & UserProfile;
+
+export const useUserInfo = (): UserInfo => {
+  const user = useUserProfile();
+  const {user: userProfile} = useUser();
+
+  return {...userProfile, ...user};
 };
 
 export const useCreateUser = () => {

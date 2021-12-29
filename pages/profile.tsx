@@ -1,15 +1,9 @@
-import {useUser, withPageAuthRequired} from '@auth0/nextjs-auth0';
-import {Center, Container} from '@chakra-ui/layout';
-import {Box, Text} from '@chakra-ui/react';
+import {withPageAuthRequired} from '@auth0/nextjs-auth0';
 import {NextPage} from 'next';
-import {BottomButton} from '../src/components/BackButton/BottomButton';
-import {useUserProfile} from '../src/hooks/login';
-import {CheckIcon, CloseIcon, EditIcon} from '@chakra-ui/icons';
-import {useForm} from 'react-hook-form';
+import {useUserInfo} from '../src/hooks/login';
 import {useState} from 'react';
-import {ProfleInfoEntry} from '../src/components/Form/Profile/ProfileInfoEntry';
-import {ProfleFormEntry} from '../src/components/Form/Profile/ProfileFormEntry';
-import {userResolver} from '../src/helpers/forms/user';
+import {ProfileForm} from '../src/components/Form/Profile/ProfileForm';
+import {ProfileInfo} from '../src/components/Form/Profile/ProfileInfo';
 
 interface UserProfileForm {
   firstName: string;
@@ -19,98 +13,18 @@ interface UserProfileForm {
 
 const Profile: NextPage = () => {
   const [isForm, setIsForm] = useState(false);
-  const userProfile = useUserProfile();
-  const {user} = useUser();
-  const defaultValues = {
-    firstName: userProfile.firstName,
-    lastName: userProfile.lastName,
-    email: user?.email ?? '',
-  };
-  const {
-    register,
-    handleSubmit,
-    formState: {errors},
-  } = useForm<UserProfileForm>({
-    defaultValues,
-    resolver: userResolver,
-  });
+  const user = useUserInfo();
 
   const handleEditStart = () => setIsForm(true);
   const handleEditEnd = () => setIsForm(false);
-  const handleEditProfile = handleSubmit((formData) => {
+  const handleSubmit = (formData: UserProfileForm) => {
     console.log(formData);
-  });
+  };
 
-  return (
-    <Center>
-      <Container
-        maxW="container.lg"
-        minH="container.md"
-        w="100%"
-        bg="yellow.200"
-        boxShadow="md"
-        mt="6"
-        py="6"
-        px="12"
-        borderRadius="6"
-        display="flex"
-        flexDirection="column"
-        gridGap="8"
-        as={isForm ? 'form' : 'div'}
-        onSubmit={handleEditProfile}
-      >
-        <Text fontWeight="bold" fontSize="2xl">
-          Edit your profile
-        </Text>
-        <Box display="flex" flexDir="column" gridGap="5">
-          <Box display="grid" gridTemplateColumns={{md: 'repeat(2, 1fr)', sm: '1fr'}} gridGap="4">
-            {isForm ? (
-              <ProfleFormEntry
-                label="First name"
-                placeholder="First name"
-                isInvalid={Boolean(errors['firstName'])}
-                error={errors['firstName']?.message}
-                {...register('firstName')}
-              />
-            ) : (
-              <ProfleInfoEntry label="First name" value={userProfile.firstName} />
-            )}
-            {isForm ? (
-              <ProfleFormEntry
-                label="Last name"
-                placeholder="Last name"
-                isInvalid={Boolean(errors['lastName'])}
-                error={errors['lastName']?.message}
-                {...register('lastName')}
-              />
-            ) : (
-              <ProfleInfoEntry label="Last name" value={userProfile.lastName} />
-            )}
-          </Box>
-          {isForm ? (
-            <ProfleFormEntry
-              label="Email"
-              placeholder="Email"
-              isInvalid={Boolean(errors['email'])}
-              error={errors['email']?.message}
-              {...register('email')}
-            />
-          ) : (
-            <ProfleInfoEntry label="Email" value={user?.email ?? ''} />
-          )}
-          <ProfleInfoEntry label="ID" value={userProfile.userId} />
-        </Box>
-        <Box mt="auto" display="flex" justifyContent="flex-end" gridGap="3">
-          <BottomButton
-            text={isForm ? 'Submit' : 'Edit'}
-            type={isForm ? 'submit' : 'button'}
-            icon={isForm ? <CheckIcon /> : <EditIcon />}
-            onClick={isForm ? undefined : handleEditStart}
-          />
-          {isForm && <BottomButton icon={<CloseIcon />} text={'Cancel'} onClick={handleEditEnd} type="button" />}
-        </Box>
-      </Container>
-    </Center>
+  return isForm ? (
+    <ProfileForm user={user} onSubmit={handleSubmit} handleEditEnd={handleEditEnd} />
+  ) : (
+    <ProfileInfo user={user} handleEdit={handleEditStart} />
   );
 };
 
