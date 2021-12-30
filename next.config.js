@@ -7,7 +7,7 @@ module.exports = {
       {
         source: '/',
         destination: '/snippets',
-        permanent: true,
+        permanent: false,
       },
     ];
   },

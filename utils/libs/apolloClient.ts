@@ -30,7 +30,7 @@ function createApolloClient() {
         },
         Query: {
           fields: {
-            Snippets: offsetLimitPagination(),
+            querySnippet: offsetLimitPagination(),
           },
         },
       },
