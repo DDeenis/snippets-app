@@ -1,6 +1,7 @@
 import {useMutation, useQuery} from '@apollo/client';
 import {useEffect, useState} from 'react';
 import {GQLAddSnippetInput} from '../graphql.schema';
+import {nullableArray} from '../helpers/common';
 import {
   CreateSnippet,
   CreateSnippetRequest,
@@ -51,20 +52,22 @@ export const usePagedSnippets = (filterFunc?: (snippets?: Snippet[]) => Snippet[
   const [snippets, setSnippets] = useState(snippetsBase);
 
   const handleFetchMore = () => {
-    fetchMore({
-      variables: {
-        offset: snippets?.length,
-      },
-    }).then((response) => {
-      const chunk = response.data.querySnippet;
+    if (hasMore) {
+      fetchMore({
+        variables: {
+          offset: snippets?.length,
+        },
+      }).then((response) => {
+        const chunk = response.data.querySnippet;
 
-      if (chunk.length < defaultFirst) {
-        setHasMore(false);
-        return;
-      }
+        if (chunk.length < defaultFirst) {
+          setHasMore(false);
+          return;
+        }
 
-      // setSnippets([...nullableArray(snippets), ...chunk]);
-    });
+        setSnippets([...nullableArray(snippets), ...chunk]);
+      });
+    }
   };
 
   useEffect(() => {

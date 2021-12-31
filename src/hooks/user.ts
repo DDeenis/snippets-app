@@ -44,7 +44,7 @@ export const useUserInfo = (): UserInfo => {
   const user = useUserProfile();
   const {user: userProfile} = useUser();
 
-  const userInfo: UserInfo = {...userProfile, ...user, email: user.email || userProfile?.email || ''};
+  const userInfo: UserInfo = {...userProfile, ...user, email: user.email};
 
   return userInfo;
 };
